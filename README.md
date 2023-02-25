@@ -2,6 +2,7 @@
 
 A Mongoose library for various `I2C` speaking ADCs from Texas Instruments:
 
+*   ADS1219 - 24bit, 1000 Samples/sec, 2 differential / 4 single-ended, programmable gain
 *   ADS1115 - 16bit, 860 Samples/sec, 2 differential / 4 single-ended, programmable gain
 *   ADS1114 - 16bit, 860 Samples/sec, 1 differential / 1 single-ended, programmable gain
 *   ADS1113 - 16bit, 860 Samples/sec, 1 differential / 1 single-ended, no gain
@@ -24,13 +25,14 @@ chip you're using. Take some measurements using `mgos_ads1x1x_read()`, and
 clean up the driver by using `mgos_ads1x1x_destroy()`.
 
 `mgos_ads1x1x_set_fsr()` is used to set the full scale range (FSR) of
-the ADC. Each chip supports ranges from 6.144 Volts down to 0.256 Volts. You
+the ADC. Except ADS1219 each chip supports ranges from 6.144 Volts down to 0.256 Volts. You
 can read the current FSR with `mgos_ads1x1x_get_fsr()`.
 
 `mgos_ads1x1x_set_dr()` is used to set the data rate of continuous
 measurements. The support differs between `ADS101X` (the 12-bit version,
-which is faster), and `ADS111X` (the 16-bit version, which is slower). You
-can read the current DR with `mgos_ads1x1x_get_dr()`.
+which is faster), `ADS1219` (the 24-bit version, which is moderate) `ADS111X`
+(the 16-bit version, which is slower). You can read the current DR
+with `mgos_ads1x1x_get_dr()`.
 
 `mgos_ads1x1x_read()` starts a singleshot measurement on the given
 channel (which takes 1ms for `ADS101X` and 8ms for `ADS111X`), and
@@ -41,7 +43,7 @@ than 0).
 `mgos_ads1x1x_read_diff()` starts a singleshot measurement of
 the differential voltage between two channels, typically `Chan0` and
 `Chan1`. Several channel pairs are allowed, see the include file for
-details. Note, that this function is only available on `ADS1X15` chips.
+details. Note, that this function is only available on `ADS1X15` and `ADS1219` chips.
 
 ## Example application
 

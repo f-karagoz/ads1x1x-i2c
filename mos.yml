@@ -1,6 +1,6 @@
 author: Pim van Pelt <pim@google.com>
 type: lib
-description: Mongoose OS library for ADS101x and ADS111x
+description: Mongoose OS library for ADS101x, ADS111x, and ADS1219
 version: 1.0
 
 sources:

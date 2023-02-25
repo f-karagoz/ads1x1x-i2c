@@ -31,7 +31,8 @@ enum mgos_ads1x1x_type {
   ADC_ADS1015,
   ADC_ADS1113,
   ADC_ADS1114,
-  ADC_ADS1115
+  ADC_ADS1115,
+  ADC_ADS1219
 };
 
 enum mgos_ads1x1x_fsr {
@@ -47,23 +48,37 @@ enum mgos_ads1x1x_fsr {
 };
 
 enum mgos_ads1x1x_dr {
-  MGOS_ADS1X1X_SPS_MIN = 0, // 8SPS for ADS111X, 128SPS for ADS101X
+  MGOS_ADS1X1X_SPS_MIN = 0, // 8SPS for ADS111X, 20SPS for ADS1219, 128SPS for ADS101X
   MGOS_ADS1X1X_SPS_8,       // 8SPS, ADS111X only
   MGOS_ADS1X1X_SPS_16,      // 16SPS, ADS111X only
+  MGOS_ADS1X1X_SPS_20,      // 20SPS, ADS1219 only
   MGOS_ADS1X1X_SPS_32,      // 32SPS, ADS111X only
   MGOS_ADS1X1X_SPS_64,      // 64SPS, ADS111X only
+  MGOS_ADS1X1X_SPS_90,      // 90SPS, ADS1219 only
   MGOS_ADS1X1X_SPS_128,     // 128SPS, both ADS111X and ADS101X
   MGOS_ADS1X1X_SPS_250,     // 250SPS, both ADS111X and ADS101X
+  MGOS_ADS1X1X_SPS_330,     // 330SPS, ADS1219 only
   MGOS_ADS1X1X_SPS_475,     // 475SPS, ADS111X only
   MGOS_ADS1X1X_SPS_490,     // 490SPS, ADS101X only
   MGOS_ADS1X1X_SPS_860,     // 860SPS, ADS111X only
   MGOS_ADS1X1X_SPS_920,     // 920SPS, ADS101X only
+  MGOS_ADS1X1X_SPS_1000,    // 1000SPS, ADS1219 only
   MGOS_ADS1X1X_SPS_1600,    // 1600SPS, ADS101X only
   MGOS_ADS1X1X_SPS_2400,    // 2400SPS, ADS101X only
   MGOS_ADS1X1X_SPS_3300,    // 3300SPS, ADS101X only
-  MGOS_ADS1X1X_SPS_DEFAULT, // 128SPS for ADS111X, 1600SPS for ADS101X
-  MGOS_ADS1X1X_SPS_MAX,     // 860SPS for ADS111X, 3300SPS for ADS101X
+  MGOS_ADS1X1X_SPS_DEFAULT, // 20SPS for ADS1219, 128SPS for ADS111X, 1600SPS for ADS101X
+  MGOS_ADS1X1X_SPS_MAX,     // 860SPS for ADS111X, 1000SPS for ADS1219, 3300SPS for ADS101X
 };
+
+enum mgos_ads1x1x_gain {
+  MGOS_ADS1X1X_GAIN_1,      // 1GAIN, ADS1219 only
+  MGOS_ADS1X1X_GAIN_4       // 4GAIN, ADS1219 only
+};
+
+enum mgos_ads1x1x_cmode {
+  MGOS_ADS1X1X_CMODE_SNGL,  // Single conversion mode, ADS1219 only
+  MGOS_ADS1X1X_CMODE_CONT     // Continuos conversion mode, ADS1219 only
+}
 
 /*
  * Initialize a ADS1X1X on the I2C bus `i2c` at address specified in `i2caddr`
@@ -99,6 +114,33 @@ bool mgos_ads1x1x_get_fsr(struct mgos_ads1x1x *dev, enum mgos_ads1x1x_fsr *fsr);
  */
 bool mgos_ads1x1x_set_dr(struct mgos_ads1x1x *dev, enum mgos_ads1x1x_dr dr);
 bool mgos_ads1x1x_get_dr(struct mgos_ads1x1x *dev, enum mgos_ads1x1x_dr *dr);
+
+/* Get or Set the Gain. Only the ADS1219 suppports this configuration.
+ *
+ * Returns true on success, false otherwise.
+ */
+bool mgos_ads1x1x_set_gain(struct mgos_ads1x1x *dev, enum mgos_ads1x1x_gain gain);
+bool mgos_ads1x1x_get_gain(struct mgos_ads1x1x *dev, enum mgos_ads1x1x_gain *gain);
+
+/* Get or Set the conversion mode.
+ * Currently only implemented for ADS1219.
+ * Returns true on success, false otherwise.
+ */
+bool mgos_ads1x1x_set_cmode(struct mgos_ads1x1x *dev, enum mgos_ads1x1x_cmode cmode);
+bool mgos_ads1x1x_get_cmode(struct mgos_ads1x1x *dev, enum mgos_ads1x1x_cmode *cmode);
+
+/* Get or Set the channels to/in use.
+ *
+ * Returns true on success, false otherwise.
+ */
+bool mgos_ads1x1x_set_channel(struct mgos_ads1x1x *dev,  uint8_t chanP, uint8_t chanN);
+bool mgos_ads1x1x_get_channel(struct mgos_ads1x1x *dev,  uint8_t *chanP, uint8_t *chanN);
+
+/* Checks if the data is ready to be read. Only the ADS1219 suppports this configuration.
+ *
+ * Returns true for data ready, false for data not ready.
+ */
+bool mgos_ads1x1x_is_data_ready(struct mgos_ads1x1x *dev);
 
 /* Read a channel from the ADC and return the read value in `result`. If the
  * channel was invalid, or an error occurred, false is returned and the result
