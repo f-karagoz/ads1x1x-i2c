@@ -807,8 +807,8 @@ bool mgos_ads1x1x_read(struct mgos_ads1x1x *dev, uint8_t chan, int32_t *result) 
 
 // if chanN is 0xff, perform a single ended read (with chanP against GND)
 bool mgos_ads1x1x_read_diff(struct mgos_ads1x1x *dev, uint8_t chanP, uint8_t chanN, int32_t *result) {
-  int16_t  result_val;
-  uint8_t  result_val_arr[3];
+  int16_t  result_val = 0;
+  uint8_t  result_val_arr[3] = {0,0,0};
   uint16_t mux;
 
   if (!mgos_ads1x1x_set_channel(dev, chanP, chanN)) { // Set the MUX
