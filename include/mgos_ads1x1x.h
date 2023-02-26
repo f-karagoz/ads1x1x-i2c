@@ -78,7 +78,7 @@ enum mgos_ads1x1x_gain {
 enum mgos_ads1x1x_cmode {
   MGOS_ADS1X1X_CMODE_SNGL,  // Single conversion mode, ADS1219 only
   MGOS_ADS1X1X_CMODE_CONT     // Continuos conversion mode, ADS1219 only
-}
+};
 
 /*
  * Initialize a ADS1X1X on the I2C bus `i2c` at address specified in `i2caddr`
@@ -148,7 +148,7 @@ bool mgos_ads1x1x_is_data_ready(struct mgos_ads1x1x *dev);
  *
  * Returns true on success, false otherwise.
  */
-bool mgos_ads1x1x_read(struct mgos_ads1x1x *dev, uint8_t chan, int16_t *result);
+bool mgos_ads1x1x_read(struct mgos_ads1x1x *dev, uint8_t chan, int32_t *result);
 
 /* Read a 2-channel differential from the ADC and return the read value in `result`.
  * If the channel pair invalid, or an error occurred, false is returned and the
@@ -159,7 +159,7 @@ bool mgos_ads1x1x_read(struct mgos_ads1x1x *dev, uint8_t chan, int16_t *result);
  *
  * Returns true on success, false otherwise.
  */
-bool mgos_ads1x1x_read_diff(struct mgos_ads1x1x *dev, uint8_t chanP, uint8_t chanN, int16_t *result);
+bool mgos_ads1x1x_read_diff(struct mgos_ads1x1x *dev, uint8_t chanP, uint8_t chanN, int32_t *result);
 
 #ifdef __cplusplus
 }
