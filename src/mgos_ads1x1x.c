@@ -858,7 +858,7 @@ bool mgos_ads1x1x_read_diff(struct mgos_ads1x1x *dev, uint8_t chanP, uint8_t cha
 }
 
 // Mongoose OS library initialization
-bool mgos_ads1x1x_i2c_init(struct mgos_ads1x1x *dev) {
+bool mgos_ads1x1x_i2c_init(void) {
   return true;
 }
 
