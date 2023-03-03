@@ -822,11 +822,11 @@ bool mgos_ads1x1x_read_diff(struct mgos_ads1x1x *dev, uint8_t chanP, uint8_t cha
   }
 
   // ADS1219 signals when the conversion is done, ADS101X has 1ms conversion delay, ADS111X has 8ms.
-  us_time = mgos_uptime_micros(void);
+  us_time = mgos_uptime_micros();
   if (dev->type == ADC_ADS1219) {
     while ( !mgos_ads1x1x_is_data_ready(dev) )
     {
-      if ( mgos_uptime_micros(void) - us_time > 300*1000 ) // 300ms max wait time
+      if ( mgos_uptime_micros() - us_time > 300*1000 ) // 300ms max wait time
         return false;
       else
         continue;
@@ -858,7 +858,7 @@ bool mgos_ads1x1x_read_diff(struct mgos_ads1x1x *dev, uint8_t chanP, uint8_t cha
 }
 
 // Mongoose OS library initialization
-bool mgos_ads1x1x_i2c_init(struct mgos_ads1x1x *dev) {
+void mgos_ads1x1x_i2c_init(struct mgos_ads1x1x *dev) {
   return true;
 }
 
